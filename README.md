@@ -1,11 +1,21 @@
 # 라즈베리파이를 이용한 Human-Following-Robot
-- opencv
-- RPi.GPIO
 
-## 테스트 파일 업로드
-1. 모터 동작 테스트
-2. opencv 테스트
+## software
+	- opencv
+	- RPi.GPIO
+	- rasbian
+
+## hardware
+	- raspberry
+	
+	- dc motor
+	- l293d
+
+
+## file
+	- motor test
+	- opencv test
+	- human_following_robots
 
 ## 개선해야할 사항
-1. 속도개선
-2. 인식률개선
+	- 속도개선
