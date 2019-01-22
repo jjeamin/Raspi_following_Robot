@@ -7,7 +7,6 @@
 
 ## hardware
 	- raspberry
-	
 	- dc motor
 	- l293d
 
