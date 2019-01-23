@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jan 23 11:31:57 2019
+
+@author: JM
+"""
+
+import cv2
+import numpy as np
+
+cap = cv2.VideoCapture(1)
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+
+while(True):
+    ret, frame = cap.read()
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    out.write(frame)
+    cv2.imshow('frame',gray)
+    if cv2.waitKey(1) & 0xFF == 27:
+        break
+
+cap.release()
+out.release()
+cv2.destroyAllWindows()

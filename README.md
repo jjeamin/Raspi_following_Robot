@@ -8,13 +8,14 @@
 ## hardware
 	- raspberry
 	- dc motor
+	- webcam
 	- l293d
-
 
 ## file
 	- motor test
 	- opencv test
 	- human_following_robots
+	- create_haar
 
 ## 개선해야할 사항
 	- 속도개선
