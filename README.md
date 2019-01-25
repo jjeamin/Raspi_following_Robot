@@ -8,14 +8,24 @@
 ## hardware
 	- raspberry
 	- dc motor
-	- webcam
+	- picamera
 	- l293d
 
 ## file
-	- motor test
-	- opencv test
-	- human_following_robots
-	- create_haar
-
-## 개선해야할 사항
-	- 속도개선
+	- test
+		+ motor
+		+ picamera
+		+ opencv
+	- data
+		+ cascade
+	- haar
+		+ haar cascade
+	- info
+		+ training image
+	- neg
+		+ negative file
+	- trash
+		+ error image
+## speed up
+	- haar cascade -> lbp cascade
+	- webcam -> picamera
