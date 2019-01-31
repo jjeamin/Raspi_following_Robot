@@ -15,9 +15,9 @@ def move(rect):
     go_back = -1
     right_left = -1 
     
-    if w*h > 50000 or y < 50:
+    if w*h > 45000 or y < 50:
         go_back = 2
-    elif w*h < 40000 or y > 430:
+    elif w*h < 35000 or y > 430:
         go_back = 1
     else:
         go_back = 0
@@ -32,37 +32,45 @@ def move(rect):
     location = (('stop','go','back'),
             ('left','go_left','back_left'),
             ('right','go_right','back_right'))    
-            
+    '''        
+    location2 = (('stop','go','back'),
+            ('left','left','left'),
+            ('right','left','right'))   
+    '''        
     loc = location[right_left][go_back] 
+    
     '''
+    x= np.linspace(0,640,8)
+    x2 = np.linspace(0,640,6)
+    degree = np.array([4.5,5.5,6.5,7.5,8.5,9.5,10.5])
+    degree2 = np.array([4.5,6,7.5,9,10.5])
+    
+    for i in range(0,len(degree)):
+        if x[i] < rect_center[0] and x[i+1] > rect_center[0]:
+            m.setServo(degree[i])
+            time.sleep(0.3)
+            break
+    '''
+
     if loc == 'stop':
-        #m.stop()
-        #m.setServo(1)
+        m.stop()
     elif loc == 'go':
-        #m.go()
-        #m.setServo(2)
+        m.go()
     elif loc == 'back':
-        #m.back()
-        #m.setServo(3)
+        m.back()
     elif loc == 'left':
-        #m.left()
-        #m.setServo(4)
+        m.left()
     elif loc == 'right':
-        #m.right()
-        #m.setServo(5)
+        m.right()
     elif loc == 'go_left':
-        #m.left()
-        #m.setServo(6)
+        m.go_left()
     elif loc == 'go_right':
-        #m.right()
-        #m.setServo(7)
+        m.go_right()
     elif loc == 'back_left':
-        #m.left()
-        #m.setServo(8)
+        m.back_left()
     elif loc == 'back_right':
-        #m.right()
-        #m.setServo(9)
-    '''   
+        m.back_right()
+      
     print(loc)
 
 def detectAndDisply(img,cascade):
@@ -95,7 +103,6 @@ def detectAndDisply(img,cascade):
 cascade = cv2.CascadeClassifier('./haar/lbpcascade_frontalface_improved.xml')
 
 cam = cv2.VideoCapture(-1)
-cam.set(320,240)
 
 while 1:
     ret, img = cam.read()
@@ -107,6 +114,7 @@ while 1:
         
         #ESC Click -> EXIT
         if cv2.waitKey(1) & 0xFF == 27:
+            m.clean()
             break
     else:
         print('no cam')

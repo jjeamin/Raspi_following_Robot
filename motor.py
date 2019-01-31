@@ -29,17 +29,19 @@ servo_p = GPIO.PWM(servo,50)
 
 servo_p.start(0)
 
+n_speed = 5
+
 def left_tire(mode):
 	if mode == 0:
 		GPIO.output(Motor1A,GPIO.HIGH)
         	GPIO.output(Motor1B,GPIO.LOW)
         	GPIO.output(Motor1E,GPIO.HIGH)
-		setSpeed(3,3)
+		left_setSpeed(5)
 	elif mode == 1:
 		GPIO.output(Motor1A,GPIO.LOW)
 		GPIO.output(Motor1B,GPIO.HIGH)
 		GPIO.output(Motor1E,GPIO.HIGH)
-		setSpeed(3,3)
+		left_setSpeed(5)
 	elif mode == -1:
 		GPIO.output(Motor1E,GPIO.LOW)	
 		left_setSpeed(0)
@@ -51,12 +53,12 @@ def right_tire(mode):
                 GPIO.output(Motor2A,GPIO.HIGH)
                 GPIO.output(Motor2B,GPIO.LOW)
                 GPIO.output(Motor2E,GPIO.HIGH)
-		setSpeed(3,3)
+		right_setSpeed(5)
         elif mode == 1:
                 GPIO.output(Motor2A,GPIO.LOW)
                 GPIO.output(Motor2B,GPIO.HIGH)
                 GPIO.output(Motor2E,GPIO.HIGH)
-		setSpeed(3,3)
+		right_setSpeed(5)
 	elif mode == -1:
 		GPIO.output(Motor2E,GPIO.LOW)
 		right_setSpeed(0)
@@ -83,6 +85,26 @@ def stop():
 	GPIO.output(Motor1E,GPIO.LOW)
 	GPIO.output(Motor2E,GPIO.LOW)
 	setSpeed(0,0)
+
+def go_left():
+	right_tire(1)
+	left_tire(1)
+	setSpeed(5,3)
+
+def go_right():
+	right_tire(1)
+	left_tire(1)
+	setSpeed(3,5)
+	
+def back_left():
+	right_tire(0)
+	left_tire(0)
+	setSpeed(5,3)
+	
+def back_right():
+	right_tire(0)
+	left_tire(0)
+	setSpeed(3,5)
 	
 def left_setSpeed(speed):
 	p1.start(0)
@@ -91,7 +113,7 @@ def left_setSpeed(speed):
 def right_setSpeed(speed):
         p2.start(0)
         p2.ChangeDutyCycle(speed*10)
-	
+
 def setSpeed(left_speed,right_speed):
 	p1.start(0)
 	p2.start(0)
@@ -99,58 +121,16 @@ def setSpeed(left_speed,right_speed):
 	p1.ChangeDutyCycle(left_speed*10)
 	p2.ChangeDutyCycle(right_speed*10)
 
-def setServo(degree):
-	
+def setServo(degree):	
 	servo_p.ChangeDutyCycle(degree)
 
 def clean():
 	GPIO.cleanup()
-'''
-def go_left():
-	GPIO.output(Motor1A,GPIO.HIGH)
-        GPIO.output(Motor1B,GPIO.HIGH)
-        GPIO.output(Motor1E,GPIO.HIGH)
 
-        GPIO.output(Motor2A,GPIO.LOW)
-        GPIO.output(Motor2B,GPIO.HIGH)
-        GPIO.output(Motor2E,GPIO.HIGH)
-
-def go_right():
-	GPIO.output(Motor1A,GPIO.LOW)
-        GPIO.output(Motor1B,GPIO.HIGH)
-        GPIO.output(Motor1E,GPIO.HIGH)
-
-        GPIO.output(Motor2A,GPIO.LOW)
-        GPIO.output(Motor2B,GPIO.HIGH)
-        GPIO.output(Motor2E,GPIO.HIGH)
-
-def back_left():
-	GPIO.output(Motor1A,GPIO.LOW)
-        GPIO.output(Motor1B,GPIO.HIGH)
-        GPIO.output(Motor1E,GPIO.HIGH)
-
-        GPIO.output(Motor2A,GPIO.LOW)
-        GPIO.output(Motor2B,GPIO.HIGH)
-        GPIO.output(Motor2E,GPIO.HIGH)
-
-def back_right():
-	GPIO.output(Motor1A,GPIO.LOW)
-        GPIO.output(Motor1B,GPIO.HIGH)
-        GPIO.output(Motor1E,GPIO.HIGH)
-
-        GPIO.output(Motor2A,GPIO.LOW)
-        GPIO.output(Motor2B,GPIO.HIGH)
-        GPIO.output(Motor2E,GPIO.HIGH)
-'''
 '''
 go()
 sleep(2)
 back()
 sleep(2)
 '''
-left()
-sleep(9)
-right()
-sleep(9)
-clean()
 

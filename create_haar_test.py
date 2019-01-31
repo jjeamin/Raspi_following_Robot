@@ -11,7 +11,7 @@ import cv2
 #this is the cascade we just made. Call what you want
 cascade = cv2.CascadeClassifier('data/cascade.xml')
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(-1)
 
 while 1:
     ret, img = cap.read()
