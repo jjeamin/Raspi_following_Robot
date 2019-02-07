@@ -36,12 +36,12 @@ def left_tire(mode):
 		GPIO.output(Motor1A,GPIO.HIGH)
         	GPIO.output(Motor1B,GPIO.LOW)
         	GPIO.output(Motor1E,GPIO.HIGH)
-		left_setSpeed(5)
+		left_setSpeed(4)
 	elif mode == 1:
 		GPIO.output(Motor1A,GPIO.LOW)
 		GPIO.output(Motor1B,GPIO.HIGH)
 		GPIO.output(Motor1E,GPIO.HIGH)
-		left_setSpeed(5)
+		left_setSpeed(4)
 	elif mode == -1:
 		GPIO.output(Motor1E,GPIO.LOW)	
 		left_setSpeed(0)
@@ -53,12 +53,12 @@ def right_tire(mode):
                 GPIO.output(Motor2A,GPIO.HIGH)
                 GPIO.output(Motor2B,GPIO.LOW)
                 GPIO.output(Motor2E,GPIO.HIGH)
-		right_setSpeed(5)
+		right_setSpeed(4)
         elif mode == 1:
                 GPIO.output(Motor2A,GPIO.LOW)
                 GPIO.output(Motor2B,GPIO.HIGH)
                 GPIO.output(Motor2E,GPIO.HIGH)
-		right_setSpeed(5)
+		right_setSpeed(4)
 	elif mode == -1:
 		GPIO.output(Motor2E,GPIO.LOW)
 		right_setSpeed(0)

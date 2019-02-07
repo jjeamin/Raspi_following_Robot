@@ -32,11 +32,6 @@ def move(rect):
     location = (('stop','go','back'),
             ('left','go_left','back_left'),
             ('right','go_right','back_right'))    
-    '''        
-    location2 = (('stop','go','back'),
-            ('left','left','left'),
-            ('right','left','right'))   
-    '''        
     loc = location[right_left][go_back] 
     
     '''
@@ -79,7 +74,6 @@ def detectAndDisply(img,cascade):
     max_size = -1
     index = 0
     
-    #e1 = cv2.getTickCount()
     if(len(detector) != 0):
         for (x,y,w,h) in detector:
             if w*h > max_size:
@@ -91,9 +85,7 @@ def detectAndDisply(img,cascade):
         (max_x,max_y,max_w,max_h) = detector[max_pos]
         
         cv2.rectangle(img,(max_x,max_y),(max_x + max_w,max_y + max_h),(0,255,0),2)
-        #e2 = cv2.getTickCount()
 
-        #print(e2-e1)
         move(detector[max_pos])
 
     cv2.imshow('img',img)
