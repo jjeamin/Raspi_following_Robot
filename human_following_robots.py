@@ -18,9 +18,9 @@ def move(rect):
     go_back = -1
     right_left = -1 
     
-    if w*h > 50000 or y < 50:
+    if w*h > 45000 or y < 50:
         go_back = 2
-    elif w*h < 30000 or y > 430:
+    elif w*h < 35000 or y > 430:
         go_back = 1
     else:
         go_back = 0
