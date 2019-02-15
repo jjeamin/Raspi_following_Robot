@@ -1,3 +1,6 @@
+from imutils.video import WebcamVideoStream
+from imutils.video import FPS
+import imutils
 import numpy as np
 import cv2
 import motor as m
@@ -15,9 +18,9 @@ def move(rect):
     go_back = -1
     right_left = -1 
     
-    if w*h > 45000 or y < 50:
+    if w*h > 50000 or y < 50:
         go_back = 2
-    elif w*h < 35000 or y > 430:
+    elif w*h < 30000 or y > 430:
         go_back = 1
     else:
         go_back = 0
@@ -33,19 +36,6 @@ def move(rect):
             ('left','go_left','back_left'),
             ('right','go_right','back_right'))    
     loc = location[right_left][go_back] 
-    
-    '''
-    x= np.linspace(0,640,8)
-    x2 = np.linspace(0,640,6)
-    degree = np.array([4.5,5.5,6.5,7.5,8.5,9.5,10.5])
-    degree2 = np.array([4.5,6,7.5,9,10.5])
-    
-    for i in range(0,len(degree)):
-        if x[i] < rect_center[0] and x[i+1] > rect_center[0]:
-            m.setServo(degree[i])
-            time.sleep(0.3)
-            break
-    '''
 
     if loc == 'stop':
         m.stop()
@@ -64,8 +54,7 @@ def move(rect):
     elif loc == 'back_left':
         m.back_left()
     elif loc == 'back_right':
-        m.back_right()
-      
+        m.back_right()  
     print(loc)
 
 def detectAndDisply(img,cascade):
@@ -87,31 +76,47 @@ def detectAndDisply(img,cascade):
         cv2.rectangle(img,(max_x,max_y),(max_x + max_w,max_y + max_h),(0,255,0),2)
 
         move(detector[max_pos])
-
+    else:
+        m.stop()
     cv2.imshow('img',img)
     
 
 #cascade = cv2.CascadeClassifier('./haar/haarcascade_frontalface_default.xml')
 cascade = cv2.CascadeClassifier('./haar/lbpcascade_frontalface_improved.xml')
 
-cam = cv2.VideoCapture(-1)
+#cam = cv2.VideoCapture(-1)
+
+cam = WebcamVideoStream(src=-1).start()
+pre = 0
 
 while 1:
-    ret, img = cam.read()
+    #ret, img = cam.read()
+    img = cam.read()
+    #img = imutils.resize(img,height=400)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
+    #fps
+    cur = time.time()
+    sec = cur - pre
+    pre = cur
+
+    fps = 1/sec
+
+    cv2.putText(img,"FPS : "+str(fps),(100,100),cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,0,255),2)
+
     #Cam START
-    if ret:
-        detectAndDisply(gray,cascade)
+    #if ret:
+    detectAndDisply(img,cascade)
         
-        #ESC Click -> EXIT
-        if cv2.waitKey(1) & 0xFF == 27:
-            m.clean()
-            break
-    else:
-        print('no cam')
+    #ESC Click -> EXIT
+    if cv2.waitKey(1) & 0xFF == 27:
+        m.clean()
         break
+    #else:
+        #print('no cam')
+        #break
 
             
-cam.release()
+#cam.release()
 cv2.destroyAllWindows()
+cam.stop()
