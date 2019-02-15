@@ -76,8 +76,6 @@ def detectAndDisply(img,cascade):
         cv2.rectangle(img,(max_x,max_y),(max_x + max_w,max_y + max_h),(0,255,0),2)
 
         move(detector[max_pos])
-    else:
-        m.stop()
 
     cv2.imshow('img',img)
     
@@ -103,11 +101,11 @@ while 1:
 
     fps = 1/sec
 
-    cv2.putText(gray,"FPS : "+str(fps),(100,100),cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,0,255),2)
+    cv2.putText(img,"FPS : "+str(fps),(100,100),cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,0,255),2)
 
     #Cam START
     #if ret:
-    detectAndDisply(gray,cascade)
+    detectAndDisply(img,cascade)
         
     #ESC Click -> EXIT
     if cv2.waitKey(1) & 0xFF == 27:
