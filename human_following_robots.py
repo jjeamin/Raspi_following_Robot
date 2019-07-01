@@ -80,8 +80,8 @@ def detectAndDisply(img,cascade):
     cv2.imshow('img',img)
     
 
-#cascade = cv2.CascadeClassifier('./haar/haarcascade_frontalface_default.xml')
-cascade = cv2.CascadeClassifier('./haar/lbpcascade_frontalface_improved.xml')
+#cascade = cv2.CascadeClassifier('./cascade_xml/haarcascade_frontalface_default.xml')
+cascade = cv2.CascadeClassifier('./cascade_xml/lbpcascade_frontalface_improved.xml')
 
 #cam = cv2.VideoCapture(-1)
 
