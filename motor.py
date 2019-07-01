@@ -73,11 +73,11 @@ def back():
 	right_tire(0)
 	left_tire(0)
 
-def left():
+def right():
 	left_tire(1)
 	right_tire(-1)
 
-def right():
+def left():
 	right_tire(1)
 	left_tire(-1)
 	
