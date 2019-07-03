@@ -57,65 +57,78 @@ def move(rect):
         m.back_right()  
     print(loc)
 
-def detectAndDisply(img,cascade):
-    detector = cascade.detectMultiScale(img)
-    
+def detectAndDisply(img,cascade,mode='human'):
     max_size = -1
     index = 0
     
-    if(len(detector) != 0):
-        for (x,y,w,h) in detector:
-            if w*h > max_size:
-                max_size = w*h
-                max_pos = index
-            index += 1
+	if mode == 'human':
+		detector = cascade.detectMultiScale(img)
+	
+		if(len(detector) != 0):
+			for (x,y,w,h) in detector:
+				if w*h > max_size:
+					max_size = w*h
+					max_pos = index
+				index += 1
 
-        max_rect = detector[max_pos]
-        (max_x,max_y,max_w,max_h) = detector[max_pos]
-        
-        cv2.rectangle(img,(max_x,max_y),(max_x + max_w,max_y + max_h),(0,255,0),2)
+			max_rect = detector[max_pos]
+			(max_x,max_y,max_w,max_h) = detector[max_pos]
+			
+			cv2.rectangle(img,(max_x,max_y),(max_x + max_w,max_y + max_h),(0,255,0),2)
 
-        move(detector[max_pos])
-
+			move(detector[max_pos])
+	
+	elif mode == 'qr':
+		if(len(barcodes) != 0):
+			for barcode in barcodes:
+				(x,y,w,h) = barcode.rect
+				cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+			move((x,y,w,h))
+		else:
+			m.stop()
+			
     cv2.imshow('img',img)
     
+def main(mode):
+	if mode == 'human':
+		#cascade = cv2.CascadeClassifier('./cascade_xml/haarcascade_frontalface_default.xml')
+		cascade = cv2.CascadeClassifier('./cascade_xml/lbpcascade_frontalface_improved.xml')
+	else:
+		cascade = None
+		
+		
+	cam = WebcamVideoStream(src=-1).start()
+	pre = 0
 
-#cascade = cv2.CascadeClassifier('./cascade_xml/haarcascade_frontalface_default.xml')
-cascade = cv2.CascadeClassifier('./cascade_xml/lbpcascade_frontalface_improved.xml')
+	while 1:
+		#ret, img = cam.read()
+		img = cam.read()
+		#img = imutils.resize(img,height=400)
+		gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+		
+		#fps
+		cur = time.time()
+		sec = cur - pre
+		pre = cur
 
-#cam = cv2.VideoCapture(-1)
+		fps = 1/sec
 
-cam = WebcamVideoStream(src=-1).start()
-pre = 0
+		cv2.putText(img,"FPS : "+str(fps),(100,100),cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,0,255),2)
 
-while 1:
-    #ret, img = cam.read()
-    img = cam.read()
-    #img = imutils.resize(img,height=400)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
-    #fps
-    cur = time.time()
-    sec = cur - pre
-    pre = cur
+		#Cam START
+		#if ret:
+		detectAndDisply(img,cascade,mode)
+			
+		#ESC Click -> EXIT
+		if cv2.waitKey(1) & 0xFF == 27:
+			m.clean()
+			break
 
-    fps = 1/sec
-
-    cv2.putText(img,"FPS : "+str(fps),(100,100),cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,0,255),2)
-
-    #Cam START
-    #if ret:
-    detectAndDisply(img,cascade)
-        
-    #ESC Click -> EXIT
-    if cv2.waitKey(1) & 0xFF == 27:
-        m.clean()
-        break
-    #else:
-        #print('no cam')
-        #break
-
-            
-#cam.release()
-cv2.destroyAllWindows()
-cam.stop()
+				
+	#cam.release()
+	cv2.destroyAllWindows()
+	cam.stop()
+	
+if __name__ == "__main__":
+	mode = 'human'
+    main(mode)
