@@ -79,6 +79,8 @@ def detectAndDisply(img,cascade,mode='human'):
 			move(detector[max_pos])
 	
 	elif mode == 'qr':
+        	barcodes = pyzbar.decode(img)
+		
 		if(len(barcodes) != 0):
 			for barcode in barcodes:
 				(x,y,w,h) = barcode.rect
@@ -130,5 +132,5 @@ def main(mode):
 	cam.stop()
 	
 if __name__ == "__main__":
-	mode = 'human'
+    mode = 'human'
     main(mode)
