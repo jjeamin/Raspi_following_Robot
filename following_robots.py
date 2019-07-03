@@ -100,7 +100,7 @@ def main(mode):
 		
 		
 	cam = WebcamVideoStream(src=-1).start()
-	pre = 0
+	prevTime = 0
 
 	while 1:
 		#ret, img = cam.read()
@@ -109,13 +109,24 @@ def main(mode):
 		gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 		
 		#fps
-		cur = time.time()
-		sec = cur - pre
-		pre = cur
+		#현재 시간 가져오기 (초단위로 가져옴)
+		curTime = time.time()
 
-		fps = 1/sec
+		#현재 시간에서 이전 시간을 빼면?
+		#한번 돌아온 시간!!
+		sec = curTime - prevTime
+		#이전 시간을 현재시간으로 다시 저장시킴
+		prevTime = curTime
 
-		cv2.putText(img,"FPS : "+str(fps),(100,100),cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,0,255),2)
+		# 프레임 계산 한바퀴 돌아온 시간을 1초로 나누면 된다.
+		# 1 / time per frame
+		fps = 1/(sec)
+
+		# 프레임 수를 문자열에 저장
+		str = "FPS : %0.1f" % fps
+
+		# 표시
+		cv2.putText(img, str, (0, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
 
 		#Cam START
 		#if ret:
